@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+    <script>
+        // ES6新特征:（每次js语言的升级都伴随着弥补漏洞和添加新方法）
+        // 模板字符串（取代了程序中的+，为了区分字符串拼接都使用模板字符串，而+只是在程序中的运算的时候使用的）
+        // 特点：可以动态的生成内容，支持换行的特殊字符串
+        // ${}中可以写一切有返回值的js表达式和变量：变量、运算、三目、调用函数、调用方法、创建对象、数组。
+        // 不支持：分支结构和循环结构和没有返回值的js表达式-》if else else_if/所有的循环：do-while/while/for
+        // 三目例子：
+        // let sex = 1;
+        // console.log(`性别:${sex?'男':'女'}`)
+        //调用函数例子：
+        // 把从数据库中获取到的毫秒数变成当前的系统时间
+        //调用方法例子：
+        // let count = 3;
+        // let price = 12.5;
+        // console.log(`总价为:${count*price.toFixed(2)}`);
+
+        //创建对象把从数据库中获取的毫秒数转为当前时间：
+        // let olderTime = 1604657435017;
+        // let week = ['日','一','二','三','四','五','六'];
+        // console.log(`时间：${new Date(olderTime).toLocaleDateString()},星期${week[new Date().getDay()]}`);//2020/11/
+     
+
+        // 将一个类数组对象（中的所有内容都)转化为（放到数组中）数组
+        // function add() {
+        //   return [].slice.call(arguments).reduce((prev,elem)=>prev+elem,0);
+        // }
+        // console.log(add(1,2,4));
+        // console.log(add(1,2,3));
+
+
+        // 有选择的将类数组对象中的部分元素转为数组（通过给arguments对象slice方法中传递截取下标参数方式实现）
+        // function calc(ename) {//模拟的就是将来进公司计算每个人都工资。每个人的工资底薪和奖金都不同，这种方式是通过传入实参值的方式传入的工资。新参只有一个员工的姓名的时候
+        //   let str = [].slice.call(arguments,1).reduce((prev,elem)=> prev+elem);
+          
+        //   console.log(`${ename}的总工资为${str}`);
+        // }
+        // calc('lilei',10000,2000,3000);
+        // calc('hmm',20000,2000,3000);
+
+
+        // 1.（JSCORE day04 面向对象）统计一个字符串中每种字符出现的次数: (15分)
+        // let str= 'helloworld';
+        // let arr = str.split('');
+        // let res = arr.reduce((prev,elem) => {
+        //     //每遍历到一个元素就判断盒子prev中是否已经含有了这个元素。若已经含有这个元素了，就让这个元素的个数++，否则（就是arr中没有这个元素，那么把它临时赋值为1）
+
+        //     // 如果prev中没有elem表示的字母，就强行添加该字母，值标记为1,。否则如果prev中已经有了elem表示的字母，就将当前prev中elem字母+1
+        //     //  if(prev[elem] !== undefined) {//判断prev对象中是否存在当前属性
+        //     //   prev[elem]++;
+        //     // }else {
+        //     //   prev[elem]=1;
+        //     // }
+        //     (prev[elem] !== undefined)?(prev[elem]++):prev[elem]=1;
+        //     return prev;//把捐款箱放回去
+        // },{})//注意：reduce（）中的第二个参数是什么根据最后你要格式决定的。这里最后想要的格式是一个对象的格式，所以reduce函数中的第二个参数/（箱子是什么样的）就是{}。当每次调用函数时都会箱子中的值临时交给prev，所以prev中的临时汇总值的初始值就是{}格式的。所以我们要判断的就是prev这个对象中是否存在当前属性吗？
+        // console.log(res);
+
+
+
+        // let str= 'helloworld';
+        // //将字符串切割成字符数组
+        // let arr = str.split('');
+        // 若字符串的格式不是你理想中的可以使用正则（+零宽断言）的split()切割成你想要的格式
+        // let str= 'h e l low o r l      d';
+        // let arr = str.split(/\s*/);
+
+        // let res = arr.reduce((prev,elem) =>{
+        // console.log(arr);
+        // 解题分析：1.要先实现给每个字符统计个数的话，使用ES5新增的数组加的reduce汇总来统计。2.reduce中的第二个参数写什么？写什么是根据最后要显示的结果的格式确定的。这题的结果格式和对象很像，所以reduce中的第二个参数就是{}。3.当调用reduce()函数的时候，第二个参数会临时将内容{}赋值给prev，所以prev中的内容就是{}。prev就像当是一个对象，那么想要判断当前字符在谁？中出没出现过呢，这个谁应该是谁-》应该是prev，因为他是当前元素之前的所有元素的汇总值。
+
+        // 人话描述：当prev对象中不包含当前元素时，就给prev对象强行添加当前元素并设置属性值暂时是1.否则prev对象中包含当前属性了，就让对象中的这个属性值执行+1操作。(注意当前元素elem是一个变量，不能直接用点的方式直接获取属性值，因为.把elem当成是属性了，不是变量了)
+    //      prev[elem]===undefined?prev[elem]=1:(prev[elem]++);
+    //     // 最后汇总值还是要返回箱子的.每次遍历一属性时，就把上面执行的结果保存到箱子中，不返回报错
+    //     return prev; 
+    //  },{})
+    //     console.log(res);
+
+
+        // 3.（JSCORE day03 闭包）使用代码实现一个具体的闭包使用场景，并说明闭包是如何形成的 (20分)
+        // function parent() {
+        //   let totle = 1000;
+        //   return function (money) {
+        //     totle-=money;
+        //     console.log(`花了${money}钱，还剩${totle}钱`)
+        //   }
+        // }
+        // let child = parent();
+        // child(100);
+        // child(200);
+        // child(300);
+        // //花了100钱，还剩900钱
+        // //花了200钱，还剩700钱
+        // //花了300钱，还剩400钱
+
+
+        
+    </script>
+</body>
+</html>
