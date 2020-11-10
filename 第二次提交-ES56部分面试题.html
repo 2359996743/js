@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>面试题</title>
+</head>
+
+<body>
+    <!-- 判断两个数组那个是升序排列 -->
+    <script>
+        // let arr1 = [1, 2, 3, 4, 5];
+        // let arr2 = [2, 4, 6, 4, 2];
+        // let bool1 = arr1.every((elem, i, arr) => {
+        //     console.log(`自动调用了一次回调函数，传入的elem=${elem},下标为:${i}.执行${elem} <= ${arr[i + 1]}`);
+        //     return i < arr.length - 1 ? elem <= arr[i + 1] : true;
+        // })
+        // console.log(bool1);
+        // let bool2 = arr2.every((elem, i, arr) => {
+        //     console.log(`自动调用了一次回调函数，传入的elem=${elem},下标为:${i}.执行${elem} <= ${arr[i + 1]}`);
+        //     return i < arr.length - 1 ? elem <= arr[i + 1] : true;
+        // })
+        // console.log(bool2);
+    </script>
+
+    <ul id="ul1">
+
+    </ul>
+    <!-- 把数组中的数据显示到页面的ul内容中 -->
+    <script>
+        let arr = ['亮亮', '然然', '东东'];
+        let str = arr.map((elem, i) => `<li>第${i + 1}阶段老师：${elem}</li>`).join('');
+        document.getElementById('ul1').innerHTML = str;
+    </script>
+
+    <!-- 使用原生的js模拟forEach和map函数 -->
+    <script>
+        // 使用原生的js模拟forEach和map函数（为什么要自己封装ES5新出的函数，就是因为解决兼容性问题，有些旧的浏览器不支持ES5/ES6.就得自己手写让就得浏览器可以支持新增的函数）
+        // 1.使用原生js写forEach()函数
+        // 原生js -> forEach()(包含稀疏数组的情况：稀疏数组就是下标不连续的数组。例如：arr=[1,,3,,5].这种数组中的空着的元素值为undefined.不让undefined在输出的结果中。写应对的方法之前一定要看人家原装的map函数应对稀疏数组是怎样做的，我们才采取解决方案：若这个位置有值就输出，没值就什么都不做
+        // let arr = [1, 2, , , 5];
+        // Array.prototype.forEach = function (fun) {//只有一个参数就是回调函数，所以这里的形参只是fun
+        //     console.log('使用自己定义的forEach函数');
+        //     // 针对稀疏数组的情况的解决方案-》判断
+        //     //遍历每个数组中的元素
+        //     for (let i = 0; i < this.length; i++) {
+        //         if (this[i] != undefined) {
+        //             //每遍历到一个元素就自动调用一次回调函数.
+        //             fun(this[i], i, this)//传递实参值
+        //         }
+        //     }
+        // }
+        // arr.forEach(elem => console.log(`${elem}-到`));
+
+        // js->原生的map()
+        // let arr = [1, 2, , 4, , ,];
+        // Array.prototype.map = function (fun) {//因为调用函数的时候只传递一个参数就是回调函数所以这里也只有一个形参fun。
+        //     console.log();
+        //     let newArr = []; console.log();
+        //     //遍历数组中每个元素
+        //     for (let i = 0; i < this.length; i++) {
+        //         // 使用判断防止稀疏数组的情况(写应对的方法之前一定要看人家原装的map函数应对稀疏数组是怎样做的，我们才采取解决方案：若这个位置有值就输出，没值就什么都不做)
+        //         if (this[i] != undefined) {
+        //             //每遍历一个元素就调用一次回调函数
+        //             //    每次调用回调函数就会传入三个值：
+
+        //             newArr[i] = fun(this[i], i, this)
+                    //将回调函数加工后的元素值放入新数组中相同位置（将来数组调用map函数时自动调用回调函数后会返回一个新值，这里调用fun()得到的就是返回的新值，因为调用map的时候别人就会写return）  
+            //     }
+            // }
+            // 返回新数组
+        //     return newArr;
+        // }
+        // let arr1 = arr.map(elem => elem * 2);//就是将调用map函数返回的新数组newArr保存到一个变量中
+        // console.log(arr1);
+
+    </script>
+
+    <!-- 使用原生call()模拟bind() -->
+    <!-- <script>
+      
+    </script> -->
+
+    <!-- for循环实现斐波那契数列
+    要求定义一个新的类型People，继承这个Animal类型（不使用ES6） -->
+    <script>
+    // for循环实现斐波那契数列
+    //1 1 2 3 5 8 13
+    // function add(n) {
+    //     if (n < 3) {
+    //         return 1
+    //     } else {
+    //         var f1 = 1, f2 = 1, fn;
+    //         for (let i = 3; i <= n; i++) {
+    //             fn = f1 + f2;
+    //             f1 = f2;
+    //             f2 = fn;
+    //         }
+    //         return fn;
+    //     }
+    // }
+    // console.log(add(6))
+
+    // 面试题：要求定义一个新的类型People，继承这个歌Animal类型（不使用ES6）
+    // function Animal(name, age) {
+    //     this.name = name;
+    //     this.age = age;
+    // }
+    // Animal.prototype.intr = function () {
+    //     console.log(`I'm ${this.name},I'm ${this.age}`);
+    // }
+    // ES5做法：
+    // function People(name, age) {
+    //     Animal.call(this, name, age);//替换Animal中的this并传递形参，将来people的孩子传入实参给Animal    
+    // }
+    // People.prototype.className = fucntion() {
+    //     console.log(`${this.ename}正在全力奔跑`)
+    // }
+
+    // Object.setPrototypeOf(People.prototype, Animal.prototype);
+
+    // ES6做法：
+    // class People extends Animal {
+    //     constructor(name, age) {
+    //         super(name, age);//设置之后就自动继承类Animal类。继承构造函数和原型对象两个
+    //     }
+    //     className() {
+    //         console.log(`${this.ename}正在全力奔跑`)
+    //     }
+    // }
+    // let lilei = new People('lilei', 20);
+    // console.log(lilei, lilei.intr());
+    </script>
+
+
+
+    <!-- <button>click me!!!</button>
+    <button>click me!!!</button>
+    <button>click me!!!</button>
+    <button>click me!!!</button>
+    <button>click me!!!</button> -->
+    <script>
+        // for循环实现斐波那契数列
+        //1 1 2 3 5 8 13
+        // function add(n) {
+        //     if (n < 3) {
+        //         return 1
+        //     } else {
+        //         var f1 = 1, f2 = 1, fn;
+        //         for (let i = 3; i <= n; i++) {
+        //             fn = f1 + f2;
+        //             f1 = f2;
+        //             f2 = fn;
+        //         }
+        //         return fn;
+        //     }
+        // }
+        // console.log(add(6))
+
+        // 面试题：要求定义一个新的类型People，继承这个Animal类型（不使用ES6）
+        // function Animal(name, age) {
+        //     this.name = name;
+        //     this.age = age;
+        // }
+        // Animal.prototype.intr = function () {
+        //     console.log(`I'm ${this.name},I'm ${this.age}`);
+        // }
+        // ES5做法：
+        // function People(name, age) {
+        //     Animal.call(this, name, age);//替换Animal中的this并传递形参，将来people的孩子传入实参给Animal    
+        // }
+        // People.prototype.className = fucntion() {
+        //     console.log(`${this.ename}正在全力奔跑`)
+        // }
+
+        // Object.setPrototypeOf(People.prototype, Animal.prototype);
+
+        // ES6做法：
+        // class People extends Animal {
+        //     constructor(name, age) {
+        //         super(name, age);//设置之后就自动继承类Animal类。继承构造函数和原型对象两个
+        //     }
+        //     className() {
+        //         console.log(`${this.ename}正在全力奔跑`)
+        //     }
+        // }
+        // let lilei = new People('lilei', 20);
+        // console.log(lilei, lilei.intr());
+
+        // 数组面试题：数组的面试题一般都要求效率（就不能擅自使用数组家的函数。例如foeEach()/filter()等函数内自带for循环的都不能用）
+        // ***记住一句话：数组在遍历过程中修改元素的内容尤其是删除元素时。影响到元素的内容了。一定要倒着遍历数组（这样简单，不然正着遍历时删除元素就容易导致元素本来的位置发生改变-》就会导致元素错过检查，正着遍历若不想错过检查就得加判断，当每删除一个元素的时候不让i++,先不往后走，判断之后再走，这样做比倒着遍历多了一步判断。不采用）
+        // 1.去掉数组中非数字字符，并给每个数字+1
+        // let arr = [1, 2, 3, 'a', 4, 'b'];
+        // // 思路：数组遍历过程中要删除数组中的元素，要改变数组的元素时，要倒着遍历
+        // for (let i = arr.length; i >= 0; i--) {
+        //     typeof arr[i] === 'number' ? arr[i]++ : arr.splice(i, 1);
+        // }
+        // console.log(arr);
+        //结果为 0: 2
+        // 1: 3
+        // 2: 4
+        // 3: 5
+
+        // 2.在两个"排好序"的数组中，高效率的找出相同的元素，放入新数组
+        // var arr1 = [1, 3, 7, 9, 12, 37, 45];
+        //          i →                     i结束
+
+        // var arr2 = [2, 4, 9, 13, 45, 88, 92];
+        //      j →
+        // 解题思路：①排好序，是这题的解题关键。排好序的数组中一定时前一个值小于后一个值。又因为要求效率，所以只能循环一次，不能发生循环的嵌套。首先在一个for循环中定义两个变量i和j。i表示arr1中的下标，j表示arr2中的下标位置。让两个数组中的元素值比较大小。如果arr1中的元素值小于arr2中的元素值时，就让arr1中的元素向右挪一位（请哥哥出气）在和arr2中的元素值比较。同理arr2中的元素值小于arr1中的元素值时，也向右挪一位（请哥哥出气）。当两个元素值相同的时候，就追加到新数组中，并且arr1和arr2一起向右挪一位。直到arr1或者arr2中的某一个数组中的元素都做到头时就退出循环。
+        //②若将来这题不是排好序的数组，也让找出两个数组中相同的元素时，一定要先使用arr.sort()排好序再找相同的元素，不排序找不到
+        // //for (var i = 0, j = 0, result = []; i < arr1.length && j < arr2.length;) {//i++ 和 j++不放到括号中是因为i和j不是同时发生变化的/就是+1的。注意括号中的第三部分空着的话，第二部分后面要加分号
+        //     if (arr1[i] < arr2[j]) {
+        //         i++;
+        //     } else if (arr1[i] > arr2[j]) {
+        //         j++
+        //     } else {
+        //result.push(arr1[i])//写arr2[j]也行，因为此刻arr1[i]=arr2[j],值是相同的
+        //i++;//两人都往前走一步
+        //j++;
+        //}
+
+        //}
+        //console.log(result);//[9, 45]
+
+        // 3.找出一个排好序的数组中，两个元素相加何为19的元素组合，考虑程序的执行效率
+        // var arr = [1, 2, 4, 6, 7, 11, 12, 15, 17, 19, 29, 32];
+        // for (let i = 0, j = arr.length - 1; i < j;) {//这里的i<j是因为i=j时两者是同一个值/撞上了，没有另外的值相加=19，所以只能是i<j的时候才for循环，否则结束循环
+        //if (arr[i] + arr[j] > 19) {//如果当前两数相加和>19，就减少右面的值，向中间挪一步，为什么减右边->因为是一个排好序的数组，右面的数大。相加>19，一定是数大了，得让数变小，就得向中间挪
+        // j--;
+        // } else if (arr[i] + arr[j] < 19) {//如果当前两数相加和<19，就增大左边的数。直到i和j都鹊桥相会
+        //  i++;
+        // } else {//arr[i]+arr[j]==19
+        //    console.log(`${arr[i]}+${arr[j]}`);
+        //    //当前两个值相加，刚好等于19，就都往中间挪一步
+        //    i++;
+        //    j--;//因为是倒着的，所以--是往前走
+        //}
+        //}
+
+        // 鄙视题：
+        // for (var i = 0; i < 5; i++) {
+        //     setTimeout(function () {
+        //         console.log(i);
+        //     }, 50)
+        // }
+        //最后输出的是五个5.解题：全局变量i,setTimeout()定时器也是全局的但是定时器中的回调函数却是放到事件队列/回调函数队列中的，必须是执行完主程序之后才能执行回调函数队列中的程序，当执行队列中的函数时，主程序中只剩下一个全局变量i=5了，所以五个定时器中的i都是5.和50这个毫秒数没关系
+
+        // 提高：若是我就想让定时器中的回调函数中的i输出的是0，1，2，3，4.该怎么做？
+        // 解题：把var换成let。因为let和for循环有可能形成闭包.形不形成闭包要看for循环中有没有一个函数，有的话就能形成闭包，没有就不能形成闭包.因为let本质是匿名函数自调用。和for循环搭配会把for中的局部变量传递给let的匿名函数自调中的参数i，let的匿名函数自调用就变成了妈妈，for中的局部变量也就是let 的匿名函数自调中的局部参数i就是红包。而for循环中的定时器中的回调函数就是孩子。所以红包每次变化，不同的孩子就会拿着自己的红包走
+        // for(let i = 0;i<5;i++) {
+        //     (function (i) {
+        //         setTimeout(function(){
+        //             console.log(i);
+        //         },50)
+        //     })(i);
+        // }
+
+        // 鄙视题：
+        // 页面上有五个相同的按钮，要求，点击按钮时弹串窗显示“我是第几个按钮”
+        // 解题：使用DOM查找触发事件的元素，在为每个元素提前绑定事件处理函数（这里有个小坑一定要注意：绑定的事件处理函数只是把右边的函数保存在了左边的onclick中，并不是调用函数的意思）
+        // let btns = document.getElementsByTagName('button');
+        // 错误：for (var i = 0; i < btns.length; i++) {
+        //     //遍历过程中，仅将事件处理函数赋值给某一个按钮的onclick属性，保存起来
+        //     //而不是调用函数！所以，不会读取函数中的内容，函数中的内容还是alert(i),i没有被读取
+        //     btns[i].onclick = function () {
+        //         alert(`我是第${i + 1}个按钮`);//执行alert(i)此时，才去找i，因为事件处理函数内，并没有局部变量i,所以，只能去全局找i用
+        //     }
+        // }
+        //一般单击按钮，都只能在循环结束后，程序结束后
+        //此时单击按钮是，自动调用按钮上提前保存的事件处理函数
+        //执行alert(i)。此时的处理函数作用域中因为没有局部变量i所以只能去全局找，但是又因为此时的全局中的变量i是5，所以每sh次每次点击按钮都弹出的是5.解决就是让处理函数不去全局找i使用，自己或者妈妈身上有局部变量i可以使用
+        // console.log('循环结束');
+        // console.log('i=' + i);
+        // console.log('程序结束');
+
+        // ES5解决（不使用ES6中的let关键字解决）
+        // for (var i = 0; i < btns.length; i++) {
+        //     //遍历过程中，仅将事件处理函数赋值给某一个按钮的onclick属性，保存起来
+        //     //而不是调用函数！所以，不会读取函数中的内容，函数中的内容还是alert(i),i没有被读取
+        //     (function (i) {//就是let的本质
+        //         btns[i].onclick = function () {
+        //             alert(`我是第${i + 1}个按钮`);
+        //         }
+        //     })(i)
+        // }
+
+        // ES6解决（使用ES6中的let关键字解决）
+        // for (let i = 0; i < btns.length; i++) {
+        //     //遍历过程中，仅将事件处理函数赋值给某一个按钮的onclick属性，保存起来
+        //     //而不是调用函数！所以，不会读取函数中的内容，函数中的内容还是alert(i),i没有被读取
+        //     btns[i].onclick = function () {
+        //         alert(`我是第${i + 1}个按钮`);
+        //     }
+
+        // }
+
+    </script>
+
+
+	   <!-- <script>
+	        // ES6新特征:（每次js语言的升级都伴随着弥补漏洞和添加新方法）
+	        // 模板字符串（取代了程序中的+，为了区分字符串拼接都使用模板字符串，而+只是在程序中的运算的时候使用的）
+	        // 特点：可以动态的生成内容，支持换行的特殊字符串
+	        // ${}中可以写一切有返回值的js表达式和变量：变量、运算、三目、调用函数、调用方法、创建对象、数组。
+	        // 不支持：分支结构和循环结构和没有返回值的js表达式-》if else else_if/所有的循环：do-while/while/for
+	        // 三目例子：
+	        // let sex = 1;
+	        // console.log(`性别:${sex?'男':'女'}`)
+	        //调用函数例子：
+	        // 把从数据库中获取到的毫秒数变成当前的系统时间
+	        //调用方法例子：
+	        // let count = 3;
+	        // let price = 12.5;
+	        // console.log(`总价为:${count*price.toFixed(2)}`);
+	
+	        //创建对象把从数据库中获取的毫秒数转为当前时间：
+	        // let olderTime = 1604657435017;
+	        // let week = ['日','一','二','三','四','五','六'];
+	        // console.log(`时间：${new Date(olderTime).toLocaleDateString()},星期${week[new Date().getDay()]}`);//2020/11/
+	     
+	
+	        // 将一个类数组对象（中的所有内容都)转化为（放到数组中）数组
+	        // function add() {
+	        //   return [].slice.call(arguments).reduce((prev,elem)=>prev+elem,0);
+	        // }
+	        // console.log(add(1,2,4));
+	        // console.log(add(1,2,3));
+	
+	
+	        // 有选择的将类数组对象中的部分元素转为数组（通过给arguments对象slice方法中传递截取下标参数方式实现）
+	        // function calc(ename) {//模拟的就是将来进公司计算每个人都工资。每个人的工资底薪和奖金都不同，这种方式是通过传入实参值的方式传入的工资。新参只有一个员工的姓名的时候
+	        //   let str = [].slice.call(arguments,1).reduce((prev,elem)=> prev+elem);
+	          
+	        //   console.log(`${ename}的总工资为${str}`);
+	        // }
+	        // calc('lilei',10000,2000,3000);
+	        // calc('hmm',20000,2000,3000);
+	
+	
+	        // 1.（JSCORE day04 面向对象）统计一个字符串中每种字符出现的次数: (15分)
+	        // let str= 'helloworld';
+	        // let arr = str.split('');
+	        // let res = arr.reduce((prev,elem) => {
+	        //     //每遍历到一个元素就判断盒子prev中是否已经含有了这个元素。若已经含有这个元素了，就让这个元素的个数++，否则（就是arr中没有这个元素，那么把它临时赋值为1）
+	
+	        //     // 如果prev中没有elem表示的字母，就强行添加该字母，值标记为1,。否则如果prev中已经有了elem表示的字母，就将当前prev中elem字母+1
+	        //     //  if(prev[elem] !== undefined) {//判断prev对象中是否存在当前属性
+	        //     //   prev[elem]++;
+	        //     // }else {
+	        //     //   prev[elem]=1;
+	        //     // }
+	        //     (prev[elem] !== undefined)?(prev[elem]++):prev[elem]=1;
+	        //     return prev;//把捐款箱放回去
+	        // },{})//注意：reduce（）中的第二个参数是什么根据最后你要格式决定的。这里最后想要的格式是一个对象的格式，所以reduce函数中的第二个参数/（箱子是什么样的）就是{}。当每次调用函数时都会箱子中的值临时交给prev，所以prev中的临时汇总值的初始值就是{}格式的。所以我们要判断的就是prev这个对象中是否存在当前属性吗？
+	        // console.log(res);
+	
+	
+	
+	        // let str= 'helloworld';
+	        // //将字符串切割成字符数组
+	        // let arr = str.split('');
+	        // 若字符串的格式不是你理想中的可以使用正则（+零宽断言）的split()切割成你想要的格式
+	        // let str= 'h e l low o r l      d';
+	        // let arr = str.split(/\s*/);
+	
+	        // let res = arr.reduce((prev,elem) =>{
+	        // console.log(arr);
+	        // 解题分析：1.要先实现给每个字符统计个数的话，使用ES5新增的数组加的reduce汇总来统计。2.reduce中的第二个参数写什么？写什么是根据最后要显示的结果的格式确定的。这题的结果格式和对象很像，所以reduce中的第二个参数就是{}。3.当调用reduce()函数的时候，第二个参数会临时将内容{}赋值给prev，所以prev中的内容就是{}。prev就像当是一个对象，那么想要判断当前字符在谁？中出没出现过呢，这个谁应该是谁-》应该是prev，因为他是当前元素之前的所有元素的汇总值。
+	
+	        // 人话描述：当prev对象中不包含当前元素时，就给prev对象强行添加当前元素并设置属性值暂时是1.否则prev对象中包含当前属性了，就让对象中的这个属性值执行+1操作。(注意当前元素elem是一个变量，不能直接用点的方式直接获取属性值，因为.把elem当成是属性了，不是变量了)
+	    //      prev[elem]===undefined?prev[elem]=1:(prev[elem]++);
+	    //     // 最后汇总值还是要返回箱子的.每次遍历一属性时，就把上面执行的结果保存到箱子中，不返回报错
+	    //     return prev; 
+	    //  },{})
+	    //     console.log(res);
+	
+	
+	        // 3.（JSCORE day03 闭包）使用代码实现一个具体的闭包使用场景，并说明闭包是如何形成的 (20分)
+	        // function parent() {
+	        //   let totle = 1000;
+	        //   return function (money) {
+	        //     totle-=money;
+	        //     console.log(`花了${money}钱，还剩${totle}钱`)
+	        //   }
+	        // }
+	        // let child = parent();
+	        // child(100);
+	        // child(200);
+	        // child(300);
+	        // //花了100钱，还剩900钱
+	        // //花了200钱，还剩700钱
+	        // //花了300钱，还剩400钱
+	
+	        // ES6数组鄙视题（这三题要求效率高-》要提高效率就不能使用带遍历的函数像forEach()/map()等）：
+	        // 1.去掉数组中非数字字符，并给每个数字+1
+	        // var arr = [1,2,3,'a',4,'b'];
+	       //解题思路：数组如果在遍历过程中要修改删除内容时，特别是删除时(删除会改变元素的下标可以就把4落下没判断到)，会改变数组中元素个数时，一定要倒着遍历
+	       //自己写的。错误的效率低：arr2 = arr.filter(elem => {
+	        //        if(typeof elem === 'number') {
+	        //         return elem;
+	        //        }
+	        //    });
+	        //    console.log(arr2);
+	
+	        // 老师写的。效率高：
+	        // var arr = [1,2,3,'a',4,'b'];
+	        // for(let i = arr.length-1;i>=0;i--) {
+	        //     if(typeof arr[i] === 'number') {
+	        //         arr[i]++;
+	        //     } else {
+	        //         arr.splice(i,1);//这种函数还是可以使用的，就是别使用那种遍历的函数
+	        //     }
+	        // }
+	        // console.log(arr);
+	        //结果： Array(4)
+	        // 0: 2
+	        // 1: 3
+	        // 2: 4
+	        // 3: 5
+	
+	        // 2.在两个排好序的数组中，高效的找出相同的元素，放入新数组，：
+	        // var arr1 = [1,3,7,9,12,37,45];
+	        // var arr2 = [2,4,9,13,45,88,92];
+	        // for(var i = 0,j = 0,result=[];i< arr1.length&&j<arr2.length;) {
+	        //     if(arr1[i]>arr2[j]) {
+	        //         j++;
+	        //     }else if(arr1[i]<arr2[j]) {
+	        //         i++;
+	        //     }else {
+	        //         result.push(arr1[i])//arr2[j]
+	        //     }
+	        // }
+	        // console.log(result);
+	
+	        
+	        // // 定义一个函数用于找出相同数组中的元素
+	        // function common() {
+	
+	        // }
+	
+	        // 3.找出一个拍好序的数组中，两个元素相加的和为19的元素组合。考虑程序的执行效率
+	        // var arr = [1,2,4,6,7,11,12,15,17];
+	    </script> -->
+	
+	    <!-- 生成一个像java一样的构造函数（旧的js中） -->
+	       <!-- <script>
+	           'use strict'
+	        // 生成一个像java一样的构造函数（旧的js中）
+	        function Emp (eid,ename,salary,eage) {
+	                Object.defineProperties(this,{
+	                    eid: {
+	                        value: eid,
+	                        enumerable: true
+	                    },
+	                    ename: {
+	                        value: ename,
+	                        enumerable: true
+	                    },
+	                    salary: {
+	                        value: salary,
+	                        writable: true
+	                    },
+	                    _eage: {
+	                        // value:不写，通过访问器验证之后赋值添加
+	                        writable: true
+	                    }
+	                  
+	                })
+	                this.eage = eage;//调用原型对象中的eage()
+	                Object.seal(this);//让所有孩子都被保护
+	            }
+	            Object.defineProperty(Emp.prototype,'eage',{
+	                    set(value) {
+	                        if(value>=18&&value<=65) {
+	                                this._eage=value
+	                        }else {
+	                            throw Error(`eage不符合要求`)
+	                        }
+	                    },
+	                    get() {
+	                        return this._eage
+	                    },
+	                    enumerable: true,
+	                    configurable: true
+	            });
+	            let lilei = new Emp(1001,'lilei',19999,23);//继承在调用this.eage = eaeg之前就执行，表示调用不是添加自有属性
+	            //尝试修改lilei的eage属性值
+	            lilei.eage = 45;
+	           console.log(Object.keys(lilei)); 
+	            console.log(lilei);
+	    </script> -->
+	
+	    <!-- ES6中class类中的共有属性/新的js中。生成一个像java一样的构造函数 -->
+	    <!-- <script>//只需要更改一处：变class类，原型对象中直接写set()和get()方法。但是set 和()之间要加上访问器属性名。证明你要保护的是eage这个属性
+	       class Emp {
+	           constructor(eid,ename,eage) {
+	            Object.defineProperties(this,{
+	                eid: {
+	                    value: eid,
+	                    enumerable: true
+	                },
+	                ename: {
+	                    value: ename,
+	                   enumerable: true
+	                },
+	                _eage: {
+	                    // value:不写，通过访问器属性验证之后，通过赋值的方式添加
+	                    writable: true
+	                }
+	            })
+	            // 修改原型对象中的访问器属性eage的开关为可遍历。注意不能修改this这个对象，因为访问器属性没在构造函数中，也不会进入到每个子对象的身体，而是在原型对象中
+	            Object.defineProperty(Emp.prototype,'eage',{
+	                enumerable: true
+	            });
+	            this.eage=eage;//调用原型对象中的eage属性.不是给子对象添加自有属性的意思
+	            Object.seal(this);
+	        }
+	            //添加一个访问器属性eage,包含两个保镖函数get和set
+	                set eage(value) {
+	                    if(value>=18&&value<=65) {
+	                        this._eage=value
+	                    }else{
+	                        throw Error(`eage不符合条件`);
+	                    }
+	                }
+	                get eage () {
+	                    return this._eage;                
+	                }
+	        }
+	        let lilei = new Emp(1001,'lilei',42);
+	        console.log(lilei);
+	    </script>  -->
+	
+	    <!-- class类中非常不建议使用共有属性 -->
+	    <!-- <script>
+	        // class类中非常不建议使用共有属性，1.即使在class原型对象中添加了共有属性，但这个属性也不是共有的，在创建子对象的时候会成为孩子对象的自有属性2.在构造函数中写共有，不可能，也会成为孩子的自有属性。3.在构造函数中给自己的原型对象中国添加共有属性（但是有坑：如果不判断直接添加时，每当创建一个新的自对象都会创建一个新的原型对象，而每次原型对象中的共有属性都会被覆盖。需要判断若原型对象中没有共有属性的时候就添加，有就不添加）
+	        // class Emp{
+	        //     constructor(ename,salary) {
+	        //         this.ename = ename;
+	        //         this.salary = salary;
+	                // if(Emp.prototype.className == undefined) {
+	                    //Emp.prototype.className = '初一一班'
+	                // }
+	            //}
+	        //}//尝试修改共有属性className为初二二班
+	        // Emp.prototype.className = '初二二班';
+	        // let lilei = new Emp('lilei',3299);
+	        // let hmm = new Emp('han meimei',70000);
+	        
+	        // //新转来一位同学lisa
+	        // let lisa = new Emp('lisa',4000);
+	        // console.log(lilei,hmm,lisa);
+	    </script> -->
+	
+	
+
+
+
+
+</body>
+
+</html>
